@@ -47,7 +47,7 @@ namespace IvaETicaret
                 pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
             app.MapControllerRoute(
                 name: "deneme",
-                pattern: "{area=admin}/{controller=Category}/{action=Index}/{id?}");
+                pattern: "{area=admin}/{controller=Product}/{action=Index}/{id?}");
             app.MapRazorPages();
 
             app.Run();

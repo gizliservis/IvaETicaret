@@ -12,5 +12,6 @@ namespace IvaETicaret.Data
         }
         public DbSet<IvaETicaret.Models.Category> Categories { get; set; }
         public DbSet<IvaETicaret.Models.Department> Departments { get; set; }
+        public DbSet<IvaETicaret.Models.Product> Products { get; set; }
     }
 }
