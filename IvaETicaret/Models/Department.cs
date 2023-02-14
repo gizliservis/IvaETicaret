@@ -9,5 +9,6 @@ namespace IvaETicaret.Models
         [Required]
         public string Name { get; set; }
         public virtual ICollection<Category>? Categories { get; set; }
+        public virtual ICollection<Branch>? Branches { get; set; }
     }
 }

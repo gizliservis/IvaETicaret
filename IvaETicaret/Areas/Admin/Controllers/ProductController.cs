@@ -189,6 +189,11 @@ namespace IvaETicaret.Areas.Admin.Controllers
                 return Problem("Entity set 'ApplicationDbContext.Products'  is null.");
             }
             var product = await _context.Products.FindAsync(id);
+            var imagePath = Path.Combine(_he.WebRootPath, product.Image.TrimStart('\\'));
+            if (System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
+            }
             if (product != null)
             {
                 _context.Products.Remove(product);
