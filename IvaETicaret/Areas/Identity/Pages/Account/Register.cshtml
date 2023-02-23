@@ -1,52 +1,87 @@
 ﻿@page
 @model RegisterModel
+@using IvaETicaret.Models
 @{
     ViewData["Title"] = "Register";
 }
 <div class="row">
     <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <form class="form-control" id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h2 style="text-align:center;color:green">Üye Kayıt Formu</h2>
+
+
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-floating">
-                <input asp-for="Input.Name" class="form-control"  aria-required="true" placeholder="Adı"/>
+            <div class="form-group">
+                <input asp-for="Input.Name" class="form-control" aria-required="true" placeholder="Adı" />
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
-            <div class="form-floating">
-                <input asp-for="Input.Surname" class="form-control"  aria-required="true" placeholder="Soyadı" />
+            <br />
+            <div class="form-group">
+                <input asp-for="Input.Surname" class="form-control" aria-required="true" placeholder="Soyadı" />
                 <span asp-validation-for="Input.Surname" class="text-danger"></span>
             </div>
-            <div class="form-floating">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email"/>
+            <br />
+            <div class="form-group">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-            <div class="form-floating">
-                <input asp-for="Input.TelNo" class="form-control"  aria-required="true" placeholder="Adı" />
+            <br />
+            <div class="form-group">
+                <input asp-for="Input.TelNo" class="form-control" aria-required="true" placeholder="TelNo" />
                 <span asp-validation-for="Input.TelNo" class="text-danger"></span>
-            </div> 
-            <div class="form-floating">
-                <input asp-for="Input.Adress" class="form-control"  aria-required="true" placeholder="Adres" />
+            </div>
+            <br />
+            <div class="form-group">
+                <input asp-for="Input.Adress" class="form-control" aria-required="true" placeholder="Adres" />
                 <span asp-validation-for="Input.Adress" class="text-danger"></span>
-            </div>  
-            <div class="form-floating">
-                <input asp-for="Input.City" class="form-control"  aria-required="true" placeholder="İl" />
+            </div>
+            <br />
+            <div class="form-group">
+                <input asp-for="Input.City" class="form-control" aria-required="true" placeholder="İl" />
                 <span asp-validation-for="Input.City" class="text-danger"></span>
             </div>
-            <div class="form-floating">
+            <br />
+            <div class="form-group">
+                <select asp-for="Input.BranchId" class="form-control"  asp-items="Model.Branches" >
+                <option value="-1">Bayi Seç</option>
+                </select>
+                <span asp-validation-for="Input.BranchId" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
                 <input asp-for="Input.Country" class="form-control" aria-required="true" placeholder="İlçe" />
                 <span asp-validation-for="Input.Country" class="text-danger"></span>
             </div>
+            <br />
 
-            <div class="form-floating">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Şifre"/>
+            <div class="form-group">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Şifre" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
-            <div class="form-floating">
+            <br />
+            <div class="form-group">
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Şifre Tekrarı" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            @if (User.IsInRole(Diger.Role_Admin))
+            {
+                <div class="form-group">
+                    <div class="form-group">
+                        <select asp-for="Input.Role" class="form-control" asp-items="Model.Input.RoleList">
+                            <option value="-1">Rol Seç</option>
+                        </select>
+                        <span asp-validation-for="Input.BranchId" class="text-danger"></span>
+                    </div>
+                </div>
+
+            }
+            <br />
+
+            <button id="registerSubmit" type="submit" class="btn btn-success form-control">Üye Ol</button>
+
+
+
         </form>
     </div>
     <div class="col-md-6 col-md-offset-2">
@@ -58,8 +93,10 @@
                 {
                     <div>
                         <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
+                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                                article
+                                about setting up this ASP.NET application to support logging in via external services
+                            </a>.
                         </p>
                     </div>
                 }
