@@ -1,8 +1,22 @@
-﻿@{
+﻿@model IEnumerable<IvaETicaret.Models.Department>
+@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="row">
+       @foreach (var item in Model)
+        {
+           <div class="col-md-3">
+               <div class="card">
+                   <div class="card-header">
+                       @item.Id
+                   </div>
+                    <img src="~/images/image/resim-yok-png-2-300x300.png" class="card-img-top" alt="" style="height:200px"/>
+                    <div class="card-body">
+                        <a asp-action="Category" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-outline-info">@item.Name</a>
+                    </div>
+               </div>
+           </div>
+        }
+    </div>
 </div>

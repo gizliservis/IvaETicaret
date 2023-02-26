@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<ApplicationUser>
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,21 +12,29 @@
 
     </div>
     <div class="col-md-6">
-    <p>
-        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary form-control">Kullanıcı Ekle</a>
-    </p>
+        @if (User.IsInRole(Diger.Role_Admin))
+        {
+            <p>
+
+                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary form-control">Kullanıcı Ekle</a>
+            </p>
+        }
+
 
 
     </div>
 
-   
+
 </div>
 <table class="table table-dark table-bordered table-striped" id="myTable">
     <thead>
         <tr>
-            <th>
+            @if (User.IsInRole(Diger.Role_Admin))
+            {
+                <th>
 
-            </th>
+                </th>
+            }
             <th>
                 Kullanıcı Adı
             </th>
@@ -44,10 +53,13 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id.ToString()" class="btn btn-success" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-pencil-square"></i>Düzenle</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id.ToString()" class="btn btn-danger"><i style="margin-right:0.5rem" class="bi bi-trash3-fill"></i>Sil</a>
-                </td>
+                @if (User.IsInRole(Diger.Role_Admin))
+                {
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id.ToString()" class="btn btn-danger"><i style="margin-right:0.5rem" class="bi bi-trash3-fill"></i>Sil</a>
+                    </td>
+                }
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -90,6 +102,5 @@
             });
         });
     </script>
-}
 }
 

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<IvaETicaret.Models.Product>
+@{
+    ViewData["Title"] = "Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        @await Component.InvokeAsync("CategoryList",new{id=ViewBag.id})
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        @item.Title
+                    </div>
+                    @if (item.Image != null)
+                    {
+                        <img src="@item.Image" class="card-img-top" alt="" style="height:200px" />
+                    }
+                    else
+                    {
+                        <img src="~/images/image/resim-yok-png-2-300x300.png" class="card-img-top" alt="" style="height:200px" />
+                    }
+
+                    <div class="card-body">
+                        <p class="card-text">@item.Description</p>
+                       
+                    </div>
+                    <div class="card-footer">
+                        <label style="font-size:20px;color:crimson">
+                            <b>
+                                @item.Price.ToString("0.00") ₺
+                            </b>
+                        </label>
+                        <a asp-action="Details" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-success" style="float:right">Detay</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

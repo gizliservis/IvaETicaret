@@ -1,4 +1,5 @@
-﻿using IvaETicaret.Models;
+﻿using IvaETicaret.Data;
+using IvaETicaret.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -8,15 +9,24 @@ namespace IvaETicaret.Areas.Customer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext _db;
+        public HomeController(ILogger<HomeController> logger,ApplicationDbContext db)
         {
+            _db= db;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var department=_db.Departments.ToList();
+            return View(department);
+        }
+        public IActionResult Category(int id)
+        {
+            var category=_db.Categories.FirstOrDefault(c=>c.DepartmentId==id);
+            var product = _db.Products.Where(c => c.CategoryId == category.Id);
+            ViewBag.id = id;
+            return View(product);
         }
 
         public IActionResult Privacy()

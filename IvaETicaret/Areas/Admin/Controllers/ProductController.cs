@@ -7,10 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IvaETicaret.Data;
 using IvaETicaret.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace IvaETicaret.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = Diger.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;
