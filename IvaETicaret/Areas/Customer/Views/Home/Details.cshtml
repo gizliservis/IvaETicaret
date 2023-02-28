@@ -1,0 +1,63 @@
+﻿@model IvaETicaret.Models.ShoppingKart
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <br />
+    <div class="row">
+        <form method="post">
+            <input hidden asp-for="ProductId" />
+            <div class="card mb-12">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="@Model.Product.Image" class="img-fluid rounded-start" alt="..." style="height:300px">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <dl class="row">
+                                <dt class="col-sm-3">
+                                    Aktiflik
+                                </dt>
+                                <dd class="col-sm-9">
+                                    @Html.DisplayFor(model => model.Product.Active)
+                                </dd>
+                                <dt class="col-sm-3">
+                                    Başlık
+                                </dt>
+                                <dd class="col-sm-9">
+                                    @Html.DisplayFor(model => model.Product.Title)
+                                </dd>
+                                <dt class="col-sm-3">
+                                    Açıklama
+                                </dt>
+                                <dd class="col-sm-9">
+                                    @Html.DisplayFor(model => model.Product.Description)
+                                </dd>
+                                <dt class="col-sm-3">
+                                    Fiyat
+                                </dt>
+                                <dd class="col-sm-9">
+                                    @Model.Product.Price.ToString("0.00") ₺
+                                </dd>
+                                <dt class="col-sm-3">
+                                    Adet
+                                </dt>
+                                <dd class="col-sm-9">
+                                   <input asp-for="Count" class="form-control"/>
+                                </dd>
+                                   <dd class="col-sm-3">
+                                   <button type="submit"  class="btn btn-success form-control"><i class="bi bi-cart4"></i>Sepete Ekle</button>
+                                </dd>
+                            </dl>
+                            <h5 class="card-title">Özellikleri </h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -17,8 +17,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
         {
             _context = context;
         }
-        [Authorize(Roles = Diger.Role_User)]
-        //[Authorize(Roles = Diger.Role_Admin)]
+        [Authorize(Roles = Diger.Role_Admin)]
         public IActionResult Index()
         {
            

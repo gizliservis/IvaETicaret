@@ -8,6 +8,7 @@ namespace IvaETicaret.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
+        public string? Image { get; set; }
         public virtual ICollection<Category>? Categories { get; set; }
         public virtual ICollection<Branch>? Branches { get; set; }
     }

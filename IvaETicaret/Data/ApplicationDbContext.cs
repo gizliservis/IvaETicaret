@@ -15,5 +15,9 @@ namespace IvaETicaret.Data
         public DbSet<IvaETicaret.Models.Product> Products { get; set; }
         public DbSet<IvaETicaret.Models.Branch> Branches { get; set; }
         public DbSet<IvaETicaret.Models.ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<IvaETicaret.Models.ShoppingKart> ShoppingKarts { get; set; }
+        public DbSet<IvaETicaret.Models.OrderHeader> OrderHeaders { get; set; }
+        public DbSet<IvaETicaret.Models.OrderDetail> OrderDetails { get; set; }
+
     }
 }
