@@ -6,17 +6,18 @@
     <div class="row">
        @foreach (var item in Model)
         {
-           <div class="col-md-3">
+           <div class="col-md-3" style="margin-bottom:6px">
                <div class="card">
-                   <div class="card-header">
-                       @item.Id
+                   <div class="card-header" style="font-size:large">
+                       @item.Name
                    </div>
-                    <img src="~/images/image/resim-yok-png-2-300x300.png" class="card-img-top" alt="" style="height:200px"/>
+                    <img src="~/images/image/resim-yok-png-2-300x300.png" class="card-img-top" alt="" style="height:150px"/>
                     <div class="card-body">
-                        <a asp-action="Category" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-outline-info">@item.Name</a>
+                        <a asp-action="Category" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-info">İncele</a>
                     </div>
                </div>
            </div>
+           
         }
     </div>
 </div>

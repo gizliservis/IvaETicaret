@@ -1,4 +1,6 @@
 ﻿@model IvaETicaret.Models.ShoppingKart
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,7 +9,7 @@
 <div class="container">
     <br />
     <div class="row">
-        <form method="post">
+        <form method="post" >
             <input hidden asp-for="ProductId" />
             <div class="card mb-12">
                 <div class="row g-0">
@@ -46,10 +48,20 @@
                                 </dt>
                                 <dd class="col-sm-9">
                                    <input asp-for="Count" class="form-control"/>
-                                </dd>
-                                   <dd class="col-sm-3">
+                                </dd
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <dd class="col-sm-3">
                                    <button type="submit"  class="btn btn-success form-control"><i class="bi bi-cart4"></i>Sepete Ekle</button>
                                 </dd>
+                                }
+                                else
+                                {
+                                       <dd class="col-sm-3">
+                                   <button href="/Identity/Account/Login" class="btn btn-success form-control"><i class="bi bi-cart4"></i>Sepete Ekle</button>
+                                </dd>
+                                }
+                                   
                             </dl>
                             <h5 class="card-title">Özellikleri </h5>
                             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>

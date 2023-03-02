@@ -1,0 +1,146 @@
+﻿@model IvaETicaret.Models.ShoppingCartVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/grid/">
+<form method="post">
+    @if (Model.ListCart.Count() > 0)
+    {
+        <div class="row mb-3 text-center">
+            <div class="col-2 themed-grid-col ">Ürün Adı</div>
+            <div class="col-6 themed-grid-col " style="text-align:left;padding-left:50px"> Miktar </div>
+            <div class="col-2 themed-grid-col"> Birim Fiyat</div>
+
+            <div class="col-2 themed-grid-col">Toplam Fiyat</div>
+        </div>
+        foreach (var item in Model.ListCart)
+        {
+            <div class="row mb-4 text-center">
+                <div class="row">
+                    <div class="col-2 themed-grid-col" style="flex-wrap:wrap"><img src="@item.Product.Image" width="60" /></div>
+                 
+                </div>
+                <div class="col-2 themed-grid-col" style="word-wrap:break-word;">  @Html.DisplayFor(modelItem => item.Product.Title)</div>
+                <div class="col-6 themed-grid-col" style="word-wrap:break-word;align-items:center;padding-left:28px">
+                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group me-3" role="group" aria-label="First group">
+                            <button asp-action="Decrease" asp-asp-route-cardId="@item.Id" class="btn btn-danger"><i class="bi bi-dash-circle" style="max-width:15px"></i></button>
+                            <input type="text" style="max-width:45px;" class="form-control" value="@item.Count" />
+                            <a asp-action="Add" asp-asp-route-cardId="@item.Id" class="btn btn-primary"><i style="max-width:15px" class="bi bi-plus-circle"></i></a>
+                            <a asp-action="Remove" asp-asp-route-cardId="@item.Id" class="btn btn-danger">Sil</a>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-2 themed-grid-col" style="word-wrap:break-word"> @item.Product.Price.ToString("0.00") ₺</div>
+                <div class="col-2 themed-grid-col" style="word-wrap:break-word">  @((item.Count * item.Product.Price).ToString("0.00")) ₺   </div>
+            </div>
+        }
+        <br />
+        <div class="row mb-3 text-center">
+            <div class="col-1 "></div>
+            <div class="col-3 "> </div>
+            <div class="col-1 "> </div>
+
+            <div class="col-7 " style="background-color:darkorange;text-align:right"><strong style="font-size:large;color:white;text-align:right">Toplam Tutar=</strong> <span style="color:white;text-align:right;font-size:medium">@Model.OrderHeader.OrderTotal.ToString("0.00") ₺</span></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-primary form-control">Alışverişe Devam Et</a>
+            </div>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-success form-control">Siparişi Tamamla</a>
+            </div>
+        </div>
+        @*
+    <div class="container">
+    <div class="row">
+    <div class="col-md-12">
+    <table class="table table-dark table-bordered table-striped" id="myTable">
+    <thead>
+    <tr>
+    <th>
+    Resim
+    </th>
+    <th>
+    Ürün Adı
+    </th>
+    <th>
+    Adet
+    </th>
+    <th>
+    Fiyat
+    </th>
+    <th>
+    Tutar
+    </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.ListCart)
+    {
+    <tr>
+    <td>
+    <img src="@item.Product.Image" width="60" />
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.Product.Title)
+    </td>
+    <td>
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+    <div class="btn-group me-2" role="group" aria-label="First group">
+    <button asp-action="Decrease" asp-asp-route-cardId="@item.Id" class="btn btn-danger"><i class="bi bi-dash-circle"></i></button>
+    <input type="text" style="max-width:45px" class="form-control" value="@item.Count" />
+    <button asp-action="Add" asp-asp-route-cardId="@item.Id" class="btn btn-primary"><i class="bi bi-plus-circle"></i></button>
+    <button asp-action="Remove" asp-asp-route-cardId="@item.Id" class="btn btn-primary"><i style="margin-right:0.5rem" class="bi bi-trash3-fill"></i></button>
+
+    </div>
+
+    </div>
+    </td>
+    <td>
+    @item.Product.Price.ToString("0.00") ₺
+    </td>
+    <td>
+    @((item.Count * item.Product.Price).ToString("0.00")) ₺
+    </td>
+
+
+    </tr>
+    }
+    <tr>
+    <td colspan="4" style="text-align:right">
+    <strong>TOPLAM TUTAR=</strong>
+    </td>
+    <td style="background-color:darkorange">
+    <span style="font-size:large;color:black">@Model.OrderHeader.OrderTotal.ToString("0.00") ₺</span>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+    <div class="row">
+    <div class="col-md-4">
+    <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-primary form-control">Alışverişe Devam Et</a>
+    </div>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+    <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-success form-control">Siparişi Tamamla</a>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>*@
+    }
+    else
+    {
+        <div>
+            Sepetinizde ürün bulunmamaktadır...
+        </div>
+    }
+</form>
+
