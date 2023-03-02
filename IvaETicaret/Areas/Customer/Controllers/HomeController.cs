@@ -61,7 +61,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize]
+        [Authorize]
         public IActionResult Details(ShoppingKart scart)
         {
             scart.Id = 0;
@@ -69,8 +69,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             if (ModelState.IsValid)
             {
-                if (claim.Value==null)
-                {
+               
                     scart.ApplicationUserId = claim.Value;
                     ShoppingKart cart = _db.ShoppingKarts.FirstOrDefault(c => c.ApplicationUserId == scart.ApplicationUserId && c.ProductId == scart.ProductId);
                     if (cart == null)
@@ -86,11 +85,8 @@ namespace IvaETicaret.Areas.Customer.Controllers
                     var count = _db.ShoppingKarts.Where(i => i.ApplicationUserId == scart.ApplicationUserId).ToList().Count();
                     HttpContext.Session.SetInt32(Diger.ssShopingCart, count);
                     return RedirectToAction("Index");
-                }
-                else
-                {
-                    return RedirectToAction("/Identity/Account/Login");
-                }
+                
+               
             
              
             }
