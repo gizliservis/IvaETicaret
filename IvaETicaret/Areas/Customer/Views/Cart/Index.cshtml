@@ -19,7 +19,7 @@
             <div class="row mb-4 text-center">
                 <div class="row">
                     <div class="col-2 themed-grid-col" style="flex-wrap:wrap"><img src="@item.Product.Image" width="60" /></div>
-                 
+
                 </div>
                 <div class="col-2 themed-grid-col" style="word-wrap:break-word;">  @Html.DisplayFor(modelItem => item.Product.Title)</div>
                 <div class="col-6 themed-grid-col" style="word-wrap:break-word;align-items:center;padding-left:28px">
@@ -53,7 +53,17 @@
             <div class="col-md-4">
             </div>
             <div class="col-md-4">
-                <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-success form-control">Siparişi Tamamla</a>
+                @if (!Model.OrderHeader.ApplicationUser.EmailConfirmed)
+                {
+                    <div>
+                        <button type="submit" class="btn btn-warning form-control text-white">lütfen Email onaylamak için tıklayınız...</button>
+                    </div>
+                }
+                else
+                {
+                    <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-success form-control">Siparişi Tamamla</a>
+
+                }
             </div>
         </div>
         @*

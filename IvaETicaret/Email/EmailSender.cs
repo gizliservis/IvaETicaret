@@ -6,7 +6,9 @@ namespace IvaETicaret.Email
     {
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            throw new NotImplementedException();
+            // return  SenderEmail.Gonder(subject, htmlMessage, email);
+            return null;
         }
+
     }
 }
