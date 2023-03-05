@@ -25,10 +25,10 @@
                 <div class="col-6 themed-grid-col" style="word-wrap:break-word;align-items:center;padding-left:28px">
                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                         <div class="btn-group me-3" role="group" aria-label="First group">
-                            <button asp-action="Decrease" asp-asp-route-cardId="@item.Id" class="btn btn-danger"><i class="bi bi-dash-circle" style="max-width:15px"></i></button>
+                            <button asp-action="Decrease" asp-route-cardId="@item.Id" class="btn btn-danger"><i class="bi bi-dash-circle" style="max-width:15px"></i></button>
                             <input type="text" style="max-width:45px;" class="form-control" value="@item.Count" />
-                            <a asp-action="Add" asp-asp-route-cardId="@item.Id" class="btn btn-primary"><i style="max-width:15px" class="bi bi-plus-circle"></i></a>
-                            <a asp-action="Remove" asp-asp-route-cardId="@item.Id" class="btn btn-danger">Sil</a>
+                            <button asp-action="Add" asp-route-cardId="@item.Id" class="btn btn-primary"><i style="max-width:15px" class="bi bi-plus-circle"></i></button>
+                            <button asp-action="Remove" asp-route-cardId="@item.Id" class="btn btn-danger">Sil</button>
 
                         </div>
 

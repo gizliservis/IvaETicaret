@@ -4,20 +4,23 @@
 }
 <div class="container">
     <div class="row">
-       @foreach (var item in Model)
+        @foreach (var item in Model)
         {
-           <div class="col-md-3" style="margin-bottom:6px">
-               <div class="card">
-                   <div class="card-header" style="font-size:large">
-                       @item.Name
-                   </div>
-                    <img src="~/images/image/resim-yok-png-2-300x300.png" class="card-img-top" alt="" style="height:150px"/>
+            <div class="col-md-3" style="margin-bottom:6px">
+                <div class="card">
+                    <div class="card-header" style="font-size:large">
+                        <a asp-action="Category" asp-controller="Home" asp-route-id="@item.Id" class="navbar-brand" style="color:#212529">@item.Name</a>
+                    </div>
+                    <a asp-action="Category" asp-controller="Home" asp-route-id="@item.Id">
+                        <img src="~/images/image/resim-yok-png-2-300x300.png" class="card-img-top" alt="" style="height:150px" />
+                    </a>
+
                     <div class="card-body">
                         <a asp-action="Category" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-info">İncele</a>
                     </div>
-               </div>
-           </div>
-           
+                </div>
+            </div>
+
         }
     </div>
 </div>

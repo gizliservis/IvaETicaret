@@ -2,7 +2,8 @@
 <div class="col-md-3">
     <div class="card">
         <div class="list-group">
-            
+            <a asp-action="CategoryDetails" asp-controller="Home" class="list-group-item list-group-item-action @(ViewBag.KategoriId==null?"active":"")" asp-route-id="" asp-route-departmentId="@ViewBag.DepartmentId">Tüm ürünler</a>
+
             @foreach (var item in Model)
             {
                 <a asp-action="CategoryDetails" class="list-group-item list-group-item-action @(ViewBag.KategoriId==item.Id?"active":"")" asp-route-id="@item.Id" asp-route-departmentId="@item.DepartmentId">@item.Name</a>

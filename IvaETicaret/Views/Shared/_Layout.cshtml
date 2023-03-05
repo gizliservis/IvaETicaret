@@ -7,7 +7,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - IvaETicaret</title>
+
+    <title> IvaETicaret - @ViewData["Title"]</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/IvaETicaret.styles.css" asp-append-version="true" />
@@ -17,92 +19,101 @@
 </head>
 
 <body>
-        <header  >
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"  >
-                <div class="container-fluid" >
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:#7b7b7b">IvaETicaret</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                             @if (User.Identity.IsAuthenticated && HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart) != null)
-                            {
-                                <li style="color:black">
-                                    <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link text-Black">
-                                        @{
-                                            var count = HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart);
-                                        }
-                                        <i class="bi bi-basket2-fill"></i>(@count)
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li style="color:white">
-                                    <a href="/Identity/Account/Login" class="nav-link text-Black">
+    <header>
 
-                                        <i class="bi bi-basket2-fill"></i>(0)
-                                    </a>
-                                </li>
-                            }
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:#7b7b7b"><img src="~/images/image/resim-yok-png-2-300x300.png" width="250" height="60" /></a>
 
-                        </ul>
-                        @if (User.IsInRole(Diger.Role_Admin) || User.IsInRole(Diger.Role_User))
+
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated && HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart) != null)
                         {
-                            <div class="dropdown">
-
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Admin
-                                </button>
-                                <ul class="dropdown-menu">
-                                    @if (User.IsInRole(Diger.Role_Admin))
-                                    {
-                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="Category" action="Index">Kategoriler</a></li>
-                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="Department" action="Index">Bölümler</a></li>
-                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="Product" action="Index">Ürünler</a></li>
+                            <li style="color:black">
+                                <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link text-Black">
+                                    @{
+                                        var count = HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart);
                                     }
-                                    @if (User.IsInRole(Diger.Role_Admin) || User.IsInRole(Diger.Role_User))
-                                    {
-                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" action="Index">Kullanıcılar</a></li>
-
-                                    }
-                                   
-                                </ul>
-                            </div>
+                                    <i class="bi bi-basket2-fill"></i>(@count)
+                                </a>
+                            </li>
                         }
-                       
-                           
-                       
-                  
+                        else
+                        {
+                            <li style="color:white">
+                                <a href="/Identity/Account/Login" class="nav-link text-Black">
 
+                                    <i class="bi bi-basket2-fill"></i>(0)
+                                </a>
+                            </li>
+                        }
 
-
-                        <partial name="_LoginPartial" />
+                    </ul>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-inline" action="/Customer/Home/Search" method="post" style="margin-right:0.5rem">
+                                <input name="q" type="text" class="form-control mr-2" placeholder="Arama" />
+                            </form>
+                        </div>
                     </div>
+                    @if (User.IsInRole(Diger.Role_Admin) || User.IsInRole(Diger.Role_User))
+                    {
+                        <div class="dropdown">
+
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin
+                            </button>
+                            <ul class="dropdown-menu">
+                                @if (User.IsInRole(Diger.Role_Admin))
+                                {
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Category" action="Index">Kategoriler</a></li>
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Department" action="Index">Bölümler</a></li>
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Product" action="Index">Ürünler</a></li>
+                                }
+                                @if (User.IsInRole(Diger.Role_Admin) || User.IsInRole(Diger.Role_User))
+                                {
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" action="Index">Kullanıcılar</a></li>
+
+                                }
+
+                            </ul>
+
+                        </div>
+                    }
+               
+   
+
+                    <partial name="_LoginPartial" />
                 </div>
-            </nav>
-        </header>
-        <div class="container">
+            </div>
+        </nav>
+    </header>
+    <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-        </div>
-        
+    </div>
 
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2023 - IvaETicaret - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>
-  
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - IvaETicaret - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

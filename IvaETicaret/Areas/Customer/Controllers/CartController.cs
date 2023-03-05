@@ -74,5 +74,43 @@ namespace IvaETicaret.Areas.Customer.Controllers
         {
             return View();
         }
+        public IActionResult Add(int cardId)
+        {
+            var cart = _db.ShoppingKarts.FirstOrDefault(i => i.Id == cardId);
+            cart.Count += 1;
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+        public IActionResult Decrease(int cardId)
+        {
+            var cart = _db.ShoppingKarts.FirstOrDefault(i => i.Id == cardId);
+            if (cart.Count==1)
+            {
+                var count = _db.ShoppingKarts.Where(c => c.ApplicationUserId == cart.ApplicationUserId).ToList().Count();
+                _db.ShoppingKarts.Remove(cart);
+                _db.SaveChanges();
+                HttpContext.Session.SetInt32(Diger.ssShopingCart, count - 1);
+            }
+            else
+            {
+                cart.Count -= 1;
+                _db.SaveChanges();
+            }
+       
+            return RedirectToAction(nameof(Index));
+        }
+        public IActionResult Remove(int cardId)
+        {
+            var cart = _db.ShoppingKarts.FirstOrDefault(i => i.Id == cardId);
+          
+                var count = _db.ShoppingKarts.Where(c => c.ApplicationUserId == cart.ApplicationUserId).ToList().Count();
+                _db.ShoppingKarts.Remove(cart);
+                _db.SaveChanges();
+                HttpContext.Session.SetInt32(Diger.ssShopingCart, count - 1);
+         
+
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

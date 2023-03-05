@@ -1,4 +1,7 @@
-﻿@model IEnumerable<IvaETicaret.Models.Product>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common;
+@model IPagedList<IvaETicaret.Models.Product>
 @{
     ViewData["Title"] = "Category";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -39,5 +42,19 @@
             </div>
         }
     </div>
+    <nav>
+        @Html.PagedListPager((IPagedList)Model,p=>Url.Action("CategoryDetails",new{Id=ViewBag.Id, p}),new X.PagedList.Web.Common.PagedListRenderOptions{
+        LiElementClasses=new[] { "page-item" },
+        PageClasses = new[]{ "page-link"},
+        ActiveLiElementClass = "active",
+        UlElementClasses = new[] { "pagination","justify-content-center", "mt-3" },
+        MaximumPageNumbersToDisplay = 6,
+        LinkToNextPageFormat = "İleri",
+        LinkToPreviousPageFormat = "Geri",
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always
+
+        })
+    </nav>
 </div>
 
