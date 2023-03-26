@@ -16,9 +16,10 @@ namespace IvaETicaret.Models
         public string? PostaKodu { get; set; }
         [NotMapped]
         public string Role { get; set; }
-        public int BranchId { get; set; }
+        public int? BranchId { get; set; }
         [ForeignKey("BranchId")]
         public Branch? Branch { get; set; }
+        public ICollection<Adress>? Adresses { get; set; }
 
 
     }

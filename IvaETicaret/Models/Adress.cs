@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IvaETicaret.Models
 {
@@ -7,12 +8,16 @@ namespace IvaETicaret.Models
         [Key]
         public int Id { get; set; }
 
-        public int UserId { get; set; }
+        public string ApplicationUserId { get; set; }
+        [ForeignKey("ApplicationUserId")]
+        public ApplicationUser ApplicationUser { get; set; }
 
         public string TamAdres { get; set; }
         public string Il { get; set; }
         public string Ilce { get; set; }
         public string Semt { get; set; }
-        public int BayiId { get; set; }
+        public int BranchId { get; set; }
+        [ForeignKey("BranchId")]
+        public Branch Branch { get; set; }
     }
 }

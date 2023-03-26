@@ -18,6 +18,10 @@ namespace IvaETicaret.Data
         public DbSet<IvaETicaret.Models.ShoppingKart> ShoppingKarts { get; set; }
         public DbSet<IvaETicaret.Models.OrderHeader> OrderHeaders { get; set; }
         public DbSet<IvaETicaret.Models.OrderDetail> OrderDetails { get; set; }
+        public DbSet<IvaETicaret.Models.County> Counties { get; set; }
+        public DbSet<IvaETicaret.Models.City> Cities { get; set; }
+        public DbSet<IvaETicaret.Models.District> Districts { get; set; }
+
 
     }
 }

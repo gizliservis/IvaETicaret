@@ -11,11 +11,14 @@ namespace IvaETicaret.Models
         public string CompanyName { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        public string Adress { get; set; }
+        public int DistrictId { get; set; }
+        [ForeignKey("DistrictId")]
+        public District District { get; set; }
         public string TaxNumber { get; set; }
         public int? DepartmentId { get; set; }
         [ForeignKey("DepartmentId")]
         public Department? Department { get; set; }
         public ICollection<ApplicationUser>? ApplicationUsers { get; set; }
+        public ICollection<Adress>? Adresses { get; set; }
     }
 }
