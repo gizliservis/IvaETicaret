@@ -82,6 +82,9 @@
                                     <li><a class="dropdown-item" asp-area="Admin" asp-controller="Category" action="Index">Kategoriler</a></li>
                                     <li><a class="dropdown-item" asp-area="Admin" asp-controller="Department" action="Index">Bölümler</a></li>
                                     <li><a class="dropdown-item" asp-area="Admin" asp-controller="Product" action="Index">Ürünler</a></li>
+                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="City" action="Index">İl</a></li>
+                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="County" action="Index">İlçe</a></li>
+                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="District" action="Index">Mahalle</a></li>
                                 }
                                 @if (User.IsInRole(Diger.Role_Admin) || User.IsInRole(Diger.Role_User))
                                 {

@@ -11,5 +11,6 @@ namespace IvaETicaret.Models
         public int CityId { get; set; }
         [ForeignKey(nameof(CityId))]
         public virtual City City { get; set; }
+        public ICollection<District>? Districts { get; set; }
     }
 }

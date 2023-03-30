@@ -21,15 +21,9 @@ namespace IvaETicaret.Models
         [Required]
         public string SurName { get; set; }
         [Required]
-        public string PhoneNumber { get; set;}
-        [Required]
-        public string Adres { get; set; }
-        [Required]
-        public string Semt { get; set; }
-        [Required]
-        public string Sehir { get; set; }
-        [Required]
-        public string PostaKodu { get; set; }
+        public int AdressId { get; set; }
+        [ForeignKey("AdressId")]
+        public Adress Adress { get; set; }
         public ICollection<OrderDetail>? OrderDetails { get; set; }
     }
 }

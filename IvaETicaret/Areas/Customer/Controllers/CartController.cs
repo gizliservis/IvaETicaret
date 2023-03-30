@@ -4,6 +4,7 @@ using IvaETicaret.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -26,7 +27,37 @@ namespace IvaETicaret.Areas.Customer.Controllers
             _emailSender = emailSender;
             _userManager = userManager;
         }
+        public IActionResult Sumary()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            ShoppingCartVM = new ShoppingCartVM()
+            {
+                OrderHeader = new OrderHeader(),
+                ListCart = _db.ShoppingKarts.Where(i => i.ApplicationUserId == claim.Value).Include(i => i.Product)
 
+            };
+
+            ShoppingCartVM.OrderHeader.OrderTotal = 0;
+            var user = _db.ApplicationUsers.FirstOrDefault(c => c.Id == claim.Value);
+            ShoppingCartVM.OrderHeader.ApplicationUser = user;
+         
+            ShoppingCartVM.OrderHeader.Name = user.Name;
+            ShoppingCartVM.OrderHeader.SurName = user.Surname;
+            foreach (var item in ShoppingCartVM.ListCart)
+            {
+                item.Price = item.Product.Price;
+                ShoppingCartVM.OrderHeader.OrderTotal += (item.Count * item.Product.Price);
+
+            }
+            List<SelectListItem> Adress = _db.Adress.Where(c => c.ApplicationUserId == claim.Value).Select(c => new SelectListItem
+            {
+                Text = c.AdressTitle,
+                Value = c.Id.ToString()
+            }).ToList();
+            ViewBag.addressId = Adress;
+            return View(ShoppingCartVM);
+        }
         public IActionResult Index()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -34,10 +65,10 @@ namespace IvaETicaret.Areas.Customer.Controllers
             ShoppingCartVM = new ShoppingCartVM()
             {
                 OrderHeader = new OrderHeader(),
-                ListCart=_db.ShoppingKarts.Where(i=>i.ApplicationUserId==claim.Value).Include(i=>i.Product)                
+                ListCart = _db.ShoppingKarts.Where(i => i.ApplicationUserId == claim.Value).Include(i => i.Product)
 
             };
-            
+
             ShoppingCartVM.OrderHeader.OrderTotal = 0;
             ShoppingCartVM.OrderHeader.ApplicationUser = _db.ApplicationUsers.FirstOrDefault(c => c.Id == claim.Value);
             foreach (var item in ShoppingCartVM.ListCart)
@@ -52,7 +83,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            var user=_db.ApplicationUsers.FirstOrDefault(c=>c.Id==claim.Value);
+            var user = _db.ApplicationUsers.FirstOrDefault(c => c.Id == claim.Value);
             if (user == null)
             {
                 ModelState.AddModelError(string.Empty, "Doğrulama Emaili Boş");
@@ -65,8 +96,8 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 values: new { area = "Identity", userId = user.Id, code = code },
                 protocol: Request.Scheme);
 
-             SenderEmail.Gonder("E-Postanızı Onaylayın", $"Hesabınızı Onaylamak İçin Tıklayın <a class='btn btn-success' href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Buraya Tıkla</a>.", user.Email
-                );
+            SenderEmail.Gonder("E-Postanızı Onaylayın", $"Hesabınızı Onaylamak İçin Tıklayın <a class='btn btn-success' href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Buraya Tıkla</a>.", user.Email
+               );
             ModelState.AddModelError(string.Empty, "Email Doğrulama Kodu Gönder.");
             return RedirectToAction("Success");
         }
@@ -84,7 +115,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         public IActionResult Decrease(int cardId)
         {
             var cart = _db.ShoppingKarts.FirstOrDefault(i => i.Id == cardId);
-            if (cart.Count==1)
+            if (cart.Count == 1)
             {
                 var count = _db.ShoppingKarts.Where(c => c.ApplicationUserId == cart.ApplicationUserId).ToList().Count();
                 _db.ShoppingKarts.Remove(cart);
@@ -96,18 +127,18 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 cart.Count -= 1;
                 _db.SaveChanges();
             }
-       
+
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Remove(int cardId)
         {
             var cart = _db.ShoppingKarts.FirstOrDefault(i => i.Id == cardId);
-          
-                var count = _db.ShoppingKarts.Where(c => c.ApplicationUserId == cart.ApplicationUserId).ToList().Count();
-                _db.ShoppingKarts.Remove(cart);
-                _db.SaveChanges();
-                HttpContext.Session.SetInt32(Diger.ssShopingCart, count - 1);
-         
+
+            var count = _db.ShoppingKarts.Where(c => c.ApplicationUserId == cart.ApplicationUserId).ToList().Count();
+            _db.ShoppingKarts.Remove(cart);
+            _db.SaveChanges();
+            HttpContext.Session.SetInt32(Diger.ssShopingCart, count - 1);
+
 
             return RedirectToAction(nameof(Index));
         }

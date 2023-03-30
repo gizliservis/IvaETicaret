@@ -4,6 +4,7 @@ using IvaETicaret.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IvaETicaret.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230326134828_mig_7")]
+    partial class mig_7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.15")
+                .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -29,10 +31,6 @@ namespace IvaETicaret.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("AdressTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
@@ -631,7 +629,7 @@ namespace IvaETicaret.Migrations
             modelBuilder.Entity("IvaETicaret.Models.County", b =>
                 {
                     b.HasOne("IvaETicaret.Models.City", "City")
-                        .WithMany("Counties")
+                        .WithMany()
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -642,7 +640,7 @@ namespace IvaETicaret.Migrations
             modelBuilder.Entity("IvaETicaret.Models.District", b =>
                 {
                     b.HasOne("IvaETicaret.Models.County", "County")
-                        .WithMany("Districts")
+                        .WithMany()
                         .HasForeignKey("CountyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -786,16 +784,6 @@ namespace IvaETicaret.Migrations
                     b.Navigation("Adresses");
 
                     b.Navigation("ApplicationUsers");
-                });
-
-            modelBuilder.Entity("IvaETicaret.Models.City", b =>
-                {
-                    b.Navigation("Counties");
-                });
-
-            modelBuilder.Entity("IvaETicaret.Models.County", b =>
-                {
-                    b.Navigation("Districts");
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.Department", b =>

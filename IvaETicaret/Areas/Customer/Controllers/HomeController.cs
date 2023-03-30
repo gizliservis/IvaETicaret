@@ -3,6 +3,7 @@ using IvaETicaret.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using System.Drawing.Printing;
 using System.Security.Claims;
@@ -54,6 +55,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             }
             return View(department);
         }
+     
         public IActionResult Category(int id,int p=1)
         {
             const int pageSize = 1;
