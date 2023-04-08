@@ -24,6 +24,9 @@ namespace IvaETicaret.Models
         public int AdressId { get; set; }
         [ForeignKey("AdressId")]
         public Adress Adress { get; set; }
+        public int OdemeTurId { get; set; }
+        [ForeignKey("OdemeTurId")]
+        public OdemeTur OdemeTur { get; set; }
         public ICollection<OrderDetail>? OrderDetails { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             ShoppingCartVM.OrderHeader.OrderTotal = 0;
             var user = _db.ApplicationUsers.FirstOrDefault(c => c.Id == claim.Value);
             ShoppingCartVM.OrderHeader.ApplicationUser = user;
-         
+
             ShoppingCartVM.OrderHeader.Name = user.Name;
             ShoppingCartVM.OrderHeader.SurName = user.Surname;
             foreach (var item in ShoppingCartVM.ListCart)
@@ -55,8 +55,52 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 Text = c.AdressTitle,
                 Value = c.Id.ToString()
             }).ToList();
+            List<SelectListItem> odemeTur = _db.OdemeTurleri.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+            }).ToList();
             ViewBag.addressId = Adress;
+            ViewBag.odemeTur = odemeTur;
             return View(ShoppingCartVM);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Sumary(ShoppingCartVM model)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            ShoppingCartVM.ListCart = _db.ShoppingKarts.Where(c => c.ApplicationUserId == claim.Value).Include(c => c.Product);
+            ShoppingCartVM.OrderHeader.OrderStatus = Diger.Durum_Beklemede;
+            ShoppingCartVM.OrderHeader.ApplicationUserId = claim.Value;
+            ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
+            _db.OrderHeaders.Add(ShoppingCartVM.OrderHeader);
+            _db.SaveChanges();
+            foreach (var item in ShoppingCartVM.ListCart)
+            {
+                item.Price = item.Product.Price;
+                OrderDetail orderDetail = new OrderDetail
+                {
+                    ProductId=item.ProductId,
+                    OrderId=ShoppingCartVM.OrderHeader.Id,
+                    Price=item.Price,
+                    Count=item.Count,
+
+                };
+                ShoppingCartVM.OrderHeader.OrderTotal += item.Count * item.Product.Price;
+                model.OrderHeader.OrderTotal += item.Count * item.Product.Price;
+                _db.OrderDetails.Add(orderDetail);
+
+            }
+            _db.ShoppingKarts.RemoveRange(ShoppingCartVM.ListCart);
+            _db.SaveChanges();
+            HttpContext.Session.SetInt32(Diger.ssShopingCart, 0);
+            return RedirectToAction("SiparisTamam");
+
+        }
+        public IActionResult SiparisTamam()
+        {
+            return View();
         }
         public IActionResult Index()
         {

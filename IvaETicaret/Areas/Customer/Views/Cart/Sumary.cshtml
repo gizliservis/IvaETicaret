@@ -6,69 +6,87 @@
 
 <form method="post">
     <div class="container">
+        <div class="jumbotron bg-warning p-2 text-white ">
+            <h4>Sipariş Detayları</h4>
+        </div>
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3 row">
-                            <label for="inputpassword" class="col-sm-3 col-form-label">Adı</label>
+                            <label for="Adi" class="col-sm-3 col-form-label">Adı</label>
                             <div class="col-sm-9">
                                 <input class="form-control" asp-for="OrderHeader.Name" type="text" aria-label="readonly input example" readonly>
                                 <span asp-validation-for="OrderHeader.Name" class="text-danger"></span>
                             </div>
-
                         </div>
                         <div class="mb-3 row">
-                            <label for="surname" class="col-sm-3 col-form-label">SoyAdı</label>
+                            <label for="SurName" class="col-sm-3 col-form-label">SoyAdı</label>
                             <div class="col-sm-9">
                                 <input class="form-control" asp-for="OrderHeader.SurName" type="text" aria-label="readonly input example" readonly>
                                 <span asp-validation-for="OrderHeader.SurName" class="text-danger"></span>
                             </div>
-
                         </div>
                         <div class="mb-3 row">
-                            <label for="surname" class="col-sm-3 col-form-label">Adres</label>
+                            <label for="AdresId" class="col-sm-3 col-form-label">Adres</label>
                             <div class="col-sm-9">
-
-                       
                                 <select asp-for="OrderHeader.AdressId" class="form-control" asp-items="ViewBag.addressId"></select>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="OdemeturId" class="col-sm-3 col-form-label">Ödeme Türü</label>
+                            <div class="col-sm-9">
+                                <select asp-for="OrderHeader.OdemeTurId" class="form-control" asp-items="ViewBag.odemeTur"></select>
 
                             </div>
-
                         </div>
 
                     </div>
                     <div class="col-md-6">
                         <div class="col-md-12">
-                           
+
                             <ul class="list-group mb-3">
                                 @foreach (var item in Model.ListCart)
                                 {
-                                     <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <h6 class="my-0">@item.Product.Title</h6>
-                                        <small class="text-body-secondary">Adet: @item.Count</small>
-                                    </div>
-                                    <span class="text-body-secondary">@((item.Count*item.Product.Price).ToString("0.00")) ₺</span>
-                                </li>
+                                    <li class="list-group-item d-flex justify-content-between lh-sm bg-success p-2 text-white bg-opacity-75">
+                                        <div>
+                                            <h6 class="my-0">@item.Product.Title</h6>
+                                            <small class="text-body-secondary">Adet: @item.Count</small>
+
+                                        </div>
+                                        <span class="text-body-secondary">@((item.Count * item.Product.Price).ToString("0.00")) ₺</span>
+
+
+                                    </li>
                                 }
-                               
-                               
-                                <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-                                    <div class="text-success">
+
+
+                                <li class="list-group-item d-flex justify-content-between bg-body-tertiary  bg-danger p-2 text-white ">
+                                    <div class="text-light">
                                         <h6 class="my-0">Toplam Tutar</h6>
-                                        
+
                                     </div>
-                                    <span class="text-success">@(Model.OrderHeader.OrderTotal.ToString("0.00")) ₺</span>
+                                    <span class="text-light">@(Model.OrderHeader.OrderTotal.ToString("0.00")) ₺</span>
                                 </li>
                             </ul>
 
-                           
+
                         </div>
                     </div>
+
+                </div>
+                <div class="row">
+
+                    <button type="submit" class="btn btn-success form-control">Sipariş Ver</button>
+
+
+
                 </div>
             </div>
         </div>
     </div>
 </form>
+@section Scripts{
+<partial name="_ValidationScriptsPartial"/>
+}
 
