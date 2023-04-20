@@ -11,7 +11,7 @@ namespace IvaETicaret.Models
         public string Name { get; set; }
         public int CountyId { get; set; }
         [ForeignKey(nameof( CountyId))]
-        public virtual County County { get; set; }
+        public virtual County? County { get; set; }
         public ICollection<Branch>? Branches { get; set; }
     }
 }

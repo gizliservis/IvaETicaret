@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IvaETicaret.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230330001612_mig_9")]
-    partial class mig_9
+    [Migration("20230419205833_dbyeni")]
+    partial class dbyeni
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,6 +50,9 @@ namespace IvaETicaret.Migrations
                     b.Property<string>("Ilce")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Semt")
                         .IsRequired()
@@ -213,6 +216,23 @@ namespace IvaETicaret.Migrations
                     b.ToTable("Districts");
                 });
 
+            modelBuilder.Entity("IvaETicaret.Models.OdemeTur", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OdemeTurleri");
+                });
+
             modelBuilder.Entity("IvaETicaret.Models.OrderDetail", b =>
                 {
                     b.Property<int>("Id")
@@ -261,6 +281,9 @@ namespace IvaETicaret.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("OdemeTurId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
@@ -280,6 +303,8 @@ namespace IvaETicaret.Migrations
                     b.HasIndex("AdressId");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("OdemeTurId");
 
                     b.ToTable("OrderHeaders");
                 });
@@ -553,18 +578,15 @@ namespace IvaETicaret.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("Adress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("BranchId")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -577,8 +599,6 @@ namespace IvaETicaret.Migrations
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("BranchId");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -685,9 +705,17 @@ namespace IvaETicaret.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("IvaETicaret.Models.OdemeTur", "OdemeTur")
+                        .WithMany("OrderHeaders")
+                        .HasForeignKey("OdemeTurId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Adress");
 
                     b.Navigation("ApplicationUser");
+
+                    b.Navigation("OdemeTur");
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.Product", b =>
@@ -769,15 +797,6 @@ namespace IvaETicaret.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("IvaETicaret.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("IvaETicaret.Models.Branch", "Branch")
-                        .WithMany("ApplicationUsers")
-                        .HasForeignKey("BranchId");
-
-                    b.Navigation("Branch");
-                });
-
             modelBuilder.Entity("IvaETicaret.Models.Adress", b =>
                 {
                     b.Navigation("OrderHeaders");
@@ -786,8 +805,6 @@ namespace IvaETicaret.Migrations
             modelBuilder.Entity("IvaETicaret.Models.Branch", b =>
                 {
                     b.Navigation("Adresses");
-
-                    b.Navigation("ApplicationUsers");
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.City", b =>
@@ -810,6 +827,11 @@ namespace IvaETicaret.Migrations
             modelBuilder.Entity("IvaETicaret.Models.District", b =>
                 {
                     b.Navigation("Branches");
+                });
+
+            modelBuilder.Entity("IvaETicaret.Models.OdemeTur", b =>
+                {
+                    b.Navigation("OrderHeaders");
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.OrderHeader", b =>

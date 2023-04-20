@@ -32,28 +32,20 @@
                 <span asp-validation-for="Input.TelNo" class="text-danger"></span>
             </div>
             <br />
-            <div class="form-group">
-                <input asp-for="Input.Adress" class="form-control" aria-required="true" placeholder="Adres" />
-                <span asp-validation-for="Input.Adress" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="form-group">
-                <input asp-for="Input.City" class="form-control" aria-required="true" placeholder="İl" />
-                <span asp-validation-for="Input.City" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="form-group">
-                <select asp-for="Input.BranchId" class="form-control"  asp-items="Model.Branches" >
-                <option value="-1">Bayi Seç</option>
-                </select>
-                <span asp-validation-for="Input.BranchId" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="form-group">
-                <input asp-for="Input.Country" class="form-control" aria-required="true" placeholder="İlçe" />
-                <span asp-validation-for="Input.Country" class="text-danger"></span>
-            </div>
-            <br />
+
+            @if (User.IsInRole(Diger.Role_Admin))
+            {
+                <div class="form-group">
+                    <select asp-for="Input.BranchId" class="form-control" asp-items="Model.Branches">
+                        <option value="-1">Bayi Seç</option>
+                    </select>
+                    <span asp-validation-for="Input.BranchId" class="text-danger"></span>
+                </div>
+                <br />
+            }
+        
+            
+  
 
             <div class="form-group">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Şifre" />
@@ -64,6 +56,7 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Şifre Tekrarı" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            <br/>
             @if (User.IsInRole(Diger.Role_Admin))
             {
                 <div class="form-group">
@@ -71,12 +64,12 @@
                         <select asp-for="Input.Role" class="form-control" asp-items="Model.Input.RoleList">
                             <option value="-1">Rol Seç</option>
                         </select>
-                        <span asp-validation-for="Input.BranchId" class="text-danger"></span>
+                        <span asp-validation-for="Input.RoleList" class="text-danger"></span>
                     </div>
                 </div>
-
+                <br />
             }
-            <br />
+       
 
             <button id="registerSubmit" type="submit" class="btn btn-success form-control">Üye Ol</button>
 

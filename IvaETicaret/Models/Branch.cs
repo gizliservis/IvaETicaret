@@ -18,7 +18,7 @@ namespace IvaETicaret.Models
         public int? DepartmentId { get; set; }
         [ForeignKey("DepartmentId")]
         public Department? Department { get; set; }
-        public ICollection<ApplicationUser>? ApplicationUsers { get; set; }
+       
         public ICollection<Adress>? Adresses { get; set; }
     }
 }

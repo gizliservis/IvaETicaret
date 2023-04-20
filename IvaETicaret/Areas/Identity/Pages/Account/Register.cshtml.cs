@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -59,7 +60,7 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
             _emailSender = emailSender;
             _roleManager = roleManager;
             _db = db;
-    
+
         }
 
 
@@ -119,13 +120,13 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
             public string Name { get; set; }
             [Required]
             public string Surname { get; set; }
-            public string Adress { get; set; }
-            public string City { get; set; }
-            public string Country { get; set; }
+            public string? Adress { get; set; }
+            public string? City { get; set; }
+            public string? Country { get; set; }
             public string? PostaKodu { get; set; }
             public string? TelNo { get; set; }
             public string Role { get; set; }
-            public int BranchId { get; set; }
+            public int? BranchId { get; set; }
             [ForeignKey("BranchId")]
             public Branch? Branch { get; set; }
             public IEnumerable<SelectListItem> RoleList { get; set; }
@@ -144,13 +145,13 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
                     Value = u
                 })
             };
-            var data=await _db.Branches.ToListAsync();
+            var data = await _db.Branches.ToListAsync();
             Branches = new List<SelectListItem>();
             foreach (var item in data)
             {
                 Branches.Add(new SelectListItem { Text = item.CompanyName, Value = item.Id.ToString() });
             }
-          //  Branches = new SelectList(await _db.Branches.ToListAsync(), nameof(Branch.Id).ToString(), nameof(Branch.CompanyName));
+            //  Branches = new SelectList(await _db.Branches.ToListAsync(), nameof(Branch.Id).ToString(), nameof(Branch.CompanyName));
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -163,15 +164,18 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
                 {
                     UserName = Input.Email,
                     Email = Input.Email,
-                    Adress = Input.Adress,
-                    City = Input.City,
-                    Country = Input.Country,
                     PostaKodu = Input.PostaKodu,
                     BranchId = Input.BranchId,
                     Name = Input.Name,
                     Surname = Input.Surname,
-                    Role=Input.Role
+                    Role = Input.Role,
+
                 };
+                //if (!user.BranchId.HasValue)
+                //{
+                //    user.BranchId = 1;
+                //}
+
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -182,6 +186,7 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
                     if (!await _roleManager.RoleExistsAsync(Diger.Role_Admin))
                     {
+
                         await _roleManager.CreateAsync(new IdentityRole(Diger.Role_Admin));
                     }
                     if (!await _roleManager.RoleExistsAsync(Diger.Role_User))
@@ -192,12 +197,17 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
                     {
                         await _roleManager.CreateAsync(new IdentityRole(Diger.Role_Birey));
                     }
-                    if (user.Role==null)
+                    if (!await _roleManager.RoleExistsAsync(Diger.Role_Bayi))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(Diger.Role_Bayi));
+                    }
+                    if (user.Role == null)
                     {
                         await _userManager.AddToRoleAsync(user, Diger.Role_User);
                     }
                     else
                     {
+
                         await _userManager.AddToRoleAsync(user, user.Role);
                     }
 
@@ -220,14 +230,14 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        if (user.Role==null)
+                        if (user.Role == null)
                         {
                             await _signInManager.SignInAsync(user, isPersistent: false);
                             return LocalRedirect(returnUrl);
                         }
                         else
                         {
-                            return RedirectToAction("Index", "User", new {Area="Admin"});
+                            return RedirectToAction("Index", "User", new { Area = "Admin" });
                         }
                     }
                 }

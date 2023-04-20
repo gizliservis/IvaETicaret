@@ -576,18 +576,15 @@ namespace IvaETicaret.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("Adress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("BranchId")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -600,8 +597,6 @@ namespace IvaETicaret.Migrations
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("BranchId");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -800,15 +795,6 @@ namespace IvaETicaret.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("IvaETicaret.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("IvaETicaret.Models.Branch", "Branch")
-                        .WithMany("ApplicationUsers")
-                        .HasForeignKey("BranchId");
-
-                    b.Navigation("Branch");
-                });
-
             modelBuilder.Entity("IvaETicaret.Models.Adress", b =>
                 {
                     b.Navigation("OrderHeaders");
@@ -817,8 +803,6 @@ namespace IvaETicaret.Migrations
             modelBuilder.Entity("IvaETicaret.Models.Branch", b =>
                 {
                     b.Navigation("Adresses");
-
-                    b.Navigation("ApplicationUsers");
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.City", b =>

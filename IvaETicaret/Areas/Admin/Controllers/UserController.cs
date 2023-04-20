@@ -41,7 +41,6 @@ namespace IvaETicaret.Areas.Admin.Controllers
             }
 
             var user = await _context.ApplicationUsers
-                .Include(c => c.Branch)
                 .FirstOrDefaultAsync(m => m.Id == id.ToString());
             if (user == null)
             {

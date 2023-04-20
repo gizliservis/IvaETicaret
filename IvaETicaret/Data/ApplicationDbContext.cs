@@ -30,9 +30,9 @@ namespace IvaETicaret.Data
 
             builder.Entity<OrderHeader>(b =>
             {
-                b.HasOne(c => c.Adress).WithMany(c=>c.OrderHeaders).OnDelete(DeleteBehavior.NoAction);
-            });
-            
+                b.HasOne(c => c.Adress).WithMany(c => c.OrderHeaders).OnDelete(DeleteBehavior.NoAction);
+            }); 
+
         }
     }
 }

@@ -52,7 +52,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         // GET: Customer/County/Create
         public IActionResult Create()
         {
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id");
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name");
             return View();
         }
 
@@ -69,7 +69,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", county.CityId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name", county.CityId);
             return View(county);
         }
 
